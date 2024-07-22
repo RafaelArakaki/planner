@@ -1,13 +1,16 @@
 import { Calendar, Tag } from "lucide-react";
 import ModalComponent from "../../../../components/modal-component";
 import ButtonComponent from "../../../../components/button-component";
+import { FormEvent } from "react";
 
 interface CreateActivityModalProps {
-  closeCreateActivityModal: () => void
-}
+  closeCreateActivityModal: () => void;
+  createActivity: (event: FormEvent<HTMLFormElement>) => void;
+ }
 
 const CreateActivityModal = ({
-  closeCreateActivityModal
+  closeCreateActivityModal,
+  createActivity
 }: CreateActivityModalProps) => {
   return (
     <ModalComponent closeModal={closeCreateActivityModal}>
@@ -15,7 +18,7 @@ const CreateActivityModal = ({
       <p className="text-sm text-zinc-400">
         Todos convidados podem visualizar as atividades.
       </p>
-      <form className="space-y-3">
+      <form className="space-y-3" onSubmit={createActivity}>
         <div className="h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
           <Tag className="text-zinc-400 size-5" />
           <input

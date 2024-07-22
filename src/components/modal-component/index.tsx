@@ -7,12 +7,13 @@ const modalVariants = tv({
   
   variants: {    
     size: {
-      default: 'w-[640px]'
+      default: 'w-[640px]',
+      small: 'w-[340px]'
     }
   },
 
   defaultVariants: {
-    size: 'default'
+    size: 'default',
   }
 })
 

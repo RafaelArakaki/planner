@@ -6,9 +6,16 @@ import ButtonComponent from "../../../../components/button-component";
 type ConfirmTripModalProps = {
   closeModal: () => void,
   onSubmit: (event: FormEvent<HTMLFormElement>) => void,
+  setOwnerName: (name: string) => void;
+  setOwnerEmail: (email: string) => void;
 }
 
-const ConfirmTripModal = ({ closeModal, onSubmit }: ConfirmTripModalProps) => {
+const ConfirmTripModal = ({
+  closeModal,
+  onSubmit,
+  setOwnerName,
+  setOwnerEmail,
+}: ConfirmTripModalProps) => {
   return (
     <ModalComponent 
       size="default"
@@ -26,6 +33,7 @@ const ConfirmTripModal = ({ closeModal, onSubmit }: ConfirmTripModalProps) => {
             name="name"
             placeholder="Seu nome completo"
             className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+            onChange={(e) => setOwnerName(e.target.value)}
           />
         </div>
 
@@ -36,6 +44,7 @@ const ConfirmTripModal = ({ closeModal, onSubmit }: ConfirmTripModalProps) => {
             name="email"
             placeholder="Seu e-mail pessoal"
             className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+            onChange={(e) => setOwnerEmail(e.target.value)}
           />
         </div>
         <ButtonComponent

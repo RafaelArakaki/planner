@@ -1,16 +1,13 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowRight,
-  Calendar,
-  MapPin,
-  Settings2,
-} from "lucide-react";
 import logoSVG from '../../assets/img/logo.svg';
 import ConfirmTripModal from "./components/confirm-trip-modal";
 import GuestModal from "./components/guest-modal";
 import InviteGuestStep from "./components/invite-guest-step";
 import DestinationAndDateStep from "./components/destination-and-date-step";
+import { DateRange } from "react-day-picker";
+import { api } from "../../services/api";
+import { format } from "date-fns";
 
 const CreateTripPage = () => {
   const navigate = useNavigate();
@@ -21,7 +18,11 @@ const CreateTripPage = () => {
   const [emailsToInvite, setEmailsToInvite] = useState([
     'diego@rocketseat.com.br',
     'john@acme.com'
-  ])
+  ]);
+  const [destination, setDestination] = useState('');
+  const [ownerName, setOwnerName] = useState('');
+  const [ownerEmail, setOwnerEmail] = useState('');
+  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange>();
 
   const openGuestsInput = () => {
     setIsGuestsInputOpen(true)
@@ -48,7 +49,7 @@ const CreateTripPage = () => {
   }
 
   const addNewEmailToInvite = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
     const data = new FormData(event.currentTarget)
     const email = data.get('email')?.toString()
@@ -75,10 +76,37 @@ const CreateTripPage = () => {
     setEmailsToInvite(newEmailList)
   }
 
-  const createTrip = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const createTrip = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    navigate('/trips/123')
+    if (!destination) {
+      return
+    }
+
+    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+      return
+    }
+
+    if (emailsToInvite.length === 0) {
+      return
+    }
+
+    if (!ownerName || !ownerEmail) {
+      return
+    }
+    console.log(eventStartAndEndDates.to)
+    const response = await api.post('/trips', {
+      destination,
+      starts_at: eventStartAndEndDates.from,
+      ends_at: format(eventStartAndEndDates.to, 'yyyy-MM-dd 23:59:59'),
+      emails_to_invite: emailsToInvite,
+      owner_name: ownerName,
+      owner_email: ownerEmail
+    })
+    
+    const { tripId } = response.data
+
+    navigate(`/trips/${tripId}`)
   }
 
   return (
@@ -92,11 +120,14 @@ const CreateTripPage = () => {
         </div>
 
         <div className="space-y-4">
-          <DestinationAndDateStep 
-            closeGuestsInput={closeGuestsInput}
-            isGuestsInputOpen={isGuestsInputOpen}
-            openGuestsInput={openGuestsInput}
-          />
+        <DestinationAndDateStep 
+          closeGuestsInput={closeGuestsInput}
+          isGuestsInputOpen={isGuestsInputOpen}
+          openGuestsInput={openGuestsInput}
+          setDestination={setDestination}
+          setEventStartAndEndDates={setEventStartAndEndDates}
+          eventStartAndEndDates={eventStartAndEndDates}
+        />
 
           {isGuestsInputOpen && (
             <InviteGuestStep
@@ -126,6 +157,8 @@ const CreateTripPage = () => {
         <ConfirmTripModal
           closeModal={closeConfirmTripModal}
           onSubmit={createTrip}
+          setOwnerName={setOwnerName}
+          setOwnerEmail={setOwnerEmail}
         />
       )}     
 

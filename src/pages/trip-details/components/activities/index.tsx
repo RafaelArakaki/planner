@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 type ActivitiesProps = {
-  list: ActivityProps[] | null
+  list: ActivityProps[]
 }
 
 const Activities = ({ list }: ActivitiesProps) => {

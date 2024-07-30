@@ -3,10 +3,14 @@ import ButtonComponent from "../../../../components/button-component";
 import { ParticipantsProps } from "../../../../types/participants.d";
 
 type GuestProps = {
-  listParticipants: ParticipantsProps[] | null
+  listParticipants: ParticipantsProps[];
+  openModal: (open: boolean) => void
 }
 
-const Guests = ({listParticipants} : GuestProps) => {
+const Guests = ({
+  listParticipants,
+  openModal
+}: GuestProps) => {
   return (
     <div className="space-y-6">
       <h2 className="font-semibold text-xl">Convidados</h2>
@@ -28,7 +32,11 @@ const Guests = ({listParticipants} : GuestProps) => {
         ))}
       </div>
 
-      <ButtonComponent variant="secondary" size="full">
+      <ButtonComponent
+        variant="secondary"
+        size="full"
+        onClick={() => openModal(true)}
+      >
         <UserCog className="size-5" />
         Gerenciar convidados
       </ButtonComponent>

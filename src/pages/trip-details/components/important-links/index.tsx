@@ -3,10 +3,14 @@ import ButtonComponent from "../../../../components/button-component";
 import { LinkProps } from "../../../../types/links.d";
 
 type ImportantLinksProps = {
-  listLinks: LinkProps[] | null
+  listLinks: LinkProps[];
+  openModal: (open: boolean) => void;
 }
 
-const ImportantLinks = ({ listLinks }: ImportantLinksProps) => {
+const ImportantLinks = ({
+  listLinks,
+  openModal
+}: ImportantLinksProps) => {
   return (
     <div className="space-y-6">
       <h2 className="font-semibold text-xl">Links importantes</h2>
@@ -26,7 +30,11 @@ const ImportantLinks = ({ listLinks }: ImportantLinksProps) => {
         ))}
       </div>
 
-      <ButtonComponent variant="secondary" size="full">
+      <ButtonComponent
+        variant="secondary"
+        size="full"
+        onClick={() => openModal(true)}
+      >
         <Plus className="size-5" />
         Cadastrar novo link
       </ButtonComponent>

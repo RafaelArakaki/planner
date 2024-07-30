@@ -4,7 +4,7 @@ import ButtonComponent from "../../../../components/button-component";
 import { FormEvent } from "react";
 
 interface CreateActivityModalProps {
-  closeCreateActivityModal: () => void;
+  closeCreateActivityModal: (close: boolean) => void;
   createActivity: (event: FormEvent<HTMLFormElement>) => void;
  }
 
@@ -13,7 +13,7 @@ const CreateActivityModal = ({
   createActivity
 }: CreateActivityModalProps) => {
   return (
-    <ModalComponent closeModal={closeCreateActivityModal}>
+    <ModalComponent closeModal={() => closeCreateActivityModal(false)}>
       <h2 className="font-lg font-semibold">Cadastrar atividade</h2>
       <p className="text-sm text-zinc-400">
         Todos convidados podem visualizar as atividades.

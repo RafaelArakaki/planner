@@ -4,11 +4,13 @@ import { TripProps } from "../../../../types/trip.d";
 import { format } from "date-fns";
 
 type DestinationAndDateHeaderProps = {
-  infoTrip: TripProps | null
+  infoTrip: TripProps | null;
+  openModal: (open: boolean) => void;
 }
 
 const DestinationAndDateHeader = ({
-  infoTrip
+  infoTrip,
+  openModal
 }: DestinationAndDateHeaderProps) => {
 
   const displayedDate = infoTrip
@@ -30,7 +32,10 @@ const DestinationAndDateHeader = ({
 
           <div className="w-px h-6 bg-zinc-800" />
 
-          <ButtonComponent variant="secondary">
+        <ButtonComponent
+          variant="secondary"
+          onClick={() => openModal(true)}
+        >
             Alterar local/data
             <Settings2 className="size-5" />
           </ButtonComponent>
